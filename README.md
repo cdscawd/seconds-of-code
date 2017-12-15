@@ -215,7 +215,17 @@ var union = function union(a, b) {
 const average = arr => arr.reduce((acc, val) => acc + val, 0) / arr.length;
 // average([1,2,3]) -> 2
 ```
-
+- ES5
+```js
+var average = function average(arr) {
+  return (
+    arr.reduce(function(acc, val) {
+      return acc + val;
+    }, 0) / arr.length
+  );
+};
+// average([1,2,3]) -> 2
+```
 [⬆ back to top](#table-of-contents)
 
 ### Chunk array
@@ -230,7 +240,16 @@ const chunk = (arr, size) =>
   Array.from({length: Math.ceil(arr.length / size)}, (v, i) => arr.slice(i * size, i * size + size));
 // chunk([1,2,3,4,5], 2) -> [[1,2],[3,4],5]
 ```
+- ES5
+```js
+var chunk = function chunk(arr, size) {
+  return Array.from({ length: Math.ceil(arr.length / size) }, function(v, i) {
+    return arr.slice(i * size, i * size + size);
+  });
+};
 
+// chunk([1,2,3,4,5], 2) -> [[1,2],[3,4],5]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Compact
@@ -242,7 +261,15 @@ const chunk = (arr, size) =>
 const compact = (arr) => arr.filter(v => v);
 // compact([0, 1, false, 2, '', 3, 'a', 'e'*23, NaN, 's', 34]) -> [ 1, 2, 3, 'a', 's', 34 ]
 ```
-
+- ES5
+```js
+var compact = function compact(arr) {
+  return arr.filter(function(v) {
+    return v;
+  });
+};
+// compact([0, 1, false, 2, '', 3, 'a', 'e'*23, NaN, 's', 34]) -> [ 1, 2, 3, 'a', 's', 34 ]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Count occurrences of a value in array
@@ -254,7 +281,11 @@ const compact = (arr) => arr.filter(v => v);
 const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 1 : a + 0, 0);
 // countOccurrences([1,1,2,1,2,3], 1) -> 3
 ```
-
+- ES5
+```js
+const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 1 : a + 0, 0);
+// countOccurrences([1,1,2,1,2,3], 1) -> 3
+```
 [⬆ back to top](#table-of-contents)
 
 ### Deep flatten array
@@ -268,7 +299,15 @@ const deepFlatten = arr =>
   arr.reduce((a, v) => a.concat(Array.isArray(v) ? deepFlatten(v) : v), []);
 // deepFlatten([1,[2],[[3],4],5]) -> [1,2,3,4,5]
 ```
-
+- ES5
+```js
+var deepFlatten = function deepFlatten(arr) {
+  return arr.reduce(function(a, v) {
+    return a.concat(Array.isArray(v) ? deepFlatten(v) : v);
+  }, []);
+};
+// deepFlatten([1,[2],[[3],4],5]) -> [1,2,3,4,5]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Drop elements in array
@@ -284,7 +323,16 @@ const dropElements = (arr, func) => {
 };
 // dropElements([1, 2, 3, 4], n => n >= 3) -> [3,4]
 ```
-
+- ES5
+```js
+var dropElements = function dropElements(arr, func) {
+  while (arr.length > 0 && !func(arr[0])) {
+    arr.shift();
+  }
+  return arr;
+};
+// dropElements([1, 2, 3, 4], n => n >= 3) -> [3,4]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Fill array
@@ -298,7 +346,21 @@ const fillArray = (arr, value, start = 0, end = arr.length) =>
   arr.map((v, i) => i >= start && i < end ? value : v);
 // fillArray([1,2,3,4],'8',1,3) -> [1,'8','8',4]
 ```
-
+- ES5
+```js
+var fillArray = function fillArray(arr, value) {
+  var start =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  var end =
+    arguments.length > 3 && arguments[3] !== undefined
+      ? arguments[3]
+      : arr.length;
+  return arr.map(function(v, i) {
+    return i >= start && i < end ? value : v;
+  });
+};
+// fillArray([1,2,3,4],'8',1,3) -> [1,'8','8',4]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Filter out non-unique values in an array
@@ -310,7 +372,15 @@ Use `Array.filter()` for an array containing only the unique values.
 const filterNonUnique = arr => arr.filter(i => arr.indexOf(i) === arr.lastIndexOf(i));
 // filterNonUnique([1,2,2,3,4,4,5]) -> [1,3,5]
 ```
-
+- ES5
+```js
+var filterNonUnique = function filterNonUnique(arr) {
+  return arr.filter(function(i) {
+    return arr.indexOf(i) === arr.lastIndexOf(i);
+  });
+};
+// filterNonUnique([1,2,2,3,4,4,5]) -> [1,3,5]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Flatten array up to depth
@@ -327,7 +397,21 @@ const flattenDepth = (arr, depth = 1) =>
   : arr.reduce((a, v) => a.concat(v), []);
 // flattenDepth([1,[2],[[[3],4],5]], 2) -> [1,2,[3],4,5]
 ```
-
+- ES5
+```js
+var flattenDepth = function flattenDepth(arr) {
+  var depth =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  return depth != 1
+    ? arr.reduce(function(a, v) {
+        return a.concat(Array.isArray(v) ? flattenDepth(v, depth - 1) : v);
+      }, [])
+    : arr.reduce(function(a, v) {
+        return a.concat(v);
+      }, []);
+};
+// flattenDepth([1,[2],[[[3],4],5]], 2) -> [1,2,[3],4,5]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Flatten array
@@ -339,7 +423,16 @@ Use `Array.reduce()` to get all elements inside the array and `concat()` to flat
 const flatten = arr => arr.reduce((a, v) => a.concat(v), []);
 // flatten([1,[2],3,4]) -> [1,2,3,4]
 ```
+- ES5
+```js
+var flatten = function flatten(arr) {
+  return arr.reduce(function(a, v) {
+    return a.concat(v);
+  }, []);
+};
 
+// flatten([1,[2],3,4]) -> [1,2,3,4]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Get max value from array
@@ -351,7 +444,24 @@ Use `Math.max()` combined with the spread operator (`...`) to get the maximum va
 const arrayMax = arr => Math.max(...arr);
 // arrayMax([10, 1, 5]) -> 10
 ```
+- ES6
+```js
+function _toConsumableArray(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+}
 
+var arrayMax = function arrayMax(arr) {
+  return Math.max.apply(Math, _toConsumableArray(arr));
+};
+// arrayMax([10, 1, 5]) -> 10
+```
 [⬆ back to top](#table-of-contents)
 
 ### Get min value from array
@@ -363,7 +473,24 @@ Use `Math.min()` combined with the spread operator (`...`) to get the minimum va
 const arrayMin = arr => Math.min(...arr);
 // arrayMin([10, 1, 5]) -> 1
 ```
+- ES6
+```js
+function _toConsumableArray(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+}
 
+var arrayMin = function arrayMin(arr) {
+  return Math.min.apply(Math, _toConsumableArray(arr));
+};
+// arrayMin([10, 1, 5]) -> 1
+```
 [⬆ back to top](#table-of-contents)
 
 ### Group by
@@ -379,7 +506,25 @@ const groupBy = (arr, func) =>
 // groupBy([6.1, 4.2, 6.3], Math.floor) -> {4: [4.2], 6: [6.1, 6.3]}
 // groupBy(['one', 'two', 'three'], 'length') -> {3: ['one', 'two'], 5: ['three']}
 ```
-
+- ES6
+```js
+var groupBy = function groupBy(arr, func) {
+  return arr
+    .map(
+      typeof func === "function"
+        ? func
+        : function(val) {
+            return val[func];
+          }
+    )
+    .reduce(function(acc, val, i) {
+      acc[val] = (acc[val] || []).concat(arr[i]);
+      return acc;
+    }, {});
+};
+// groupBy([6.1, 4.2, 6.3], Math.floor) -> {4: [4.2], 6: [6.1, 6.3]}
+// groupBy(['one', 'two', 'three'], 'length') -> {3: ['one', 'two'], 5: ['three']}
+```
 [⬆ back to top](#table-of-contents)
 
 ### Head of list
@@ -391,7 +536,13 @@ Use `arr[0]` to return the first element of the passed array.
 const head = arr => arr[0];
 // head([1,2,3]) -> 1
 ```
-
+- ES6
+```js
+var head = function head(arr) {
+  return arr[0];
+};
+// head([1,2,3]) -> 1
+```
 [⬆ back to top](#table-of-contents)
 
 ### Initial of list
@@ -403,7 +554,13 @@ Use `arr.slice(0,-1)`to return all but the last element of the array.
 const initial = arr => arr.slice(0, -1);
 // initial([1,2,3]) -> [1,2]
 ```
-
+- ES6
+```js
+var initial = function initial(arr) {
+  return arr.slice(0, -1);
+};
+// initial([1,2,3]) -> [1,2]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Initialize array with range
@@ -417,7 +574,17 @@ const initializeArrayRange = (end, start = 0) =>
   Array.apply(null, Array(end - start)).map((v, i) => i + start);
 // initializeArrayRange(5) -> [0,1,2,3,4]
 ```
-
+- ES6
+```js
+var initializeArrayRange = function initializeArrayRange(end) {
+  var start =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  return Array.apply(null, Array(end - start)).map(function(v, i) {
+    return i + start;
+  });
+};
+// initializeArrayRange(5) -> [0,1,2,3,4]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Initialize array with values
@@ -430,7 +597,15 @@ You can omit `value` to use a default value of `0`.
 const initializeArray = (n, value = 0) => Array(n).fill(value);
 // initializeArray(5, 2) -> [2,2,2,2,2]
 ```
-
+- ES6
+```js
+var initializeArray = function initializeArray(n) {
+  var value =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  return Array(n).fill(value);
+};
+// initializeArray(5, 2) -> [2,2,2,2,2]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Last of list
@@ -442,7 +617,13 @@ Use `arr.slice(-1)[0]` to get the last element of the given array.
 const last = arr => arr.slice(-1)[0];
 // last([1,2,3]) -> 3
 ```
-
+- ES6
+```js
+var last = function last(arr) {
+  return arr.slice(-1)[0];
+};
+// last([1,2,3]) -> 3
+```
 [⬆ back to top](#table-of-contents)
 
 ### Median of array of numbers
@@ -459,7 +640,18 @@ const median = arr => {
 // median([5,6,50,1,-5]) -> 5
 // median([0,10,-2,7]) -> 3.5
 ```
-
+- ES6
+```js
+var median = function median(arr) {
+  var mid = Math.floor(arr.length / 2),
+    nums = arr.sort(function(a, b) {
+      return a - b;
+    });
+  return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+};
+// median([5,6,50,1,-5]) -> 5
+// median([0,10,-2,7]) -> 3.5
+```
 [⬆ back to top](#table-of-contents)
 
 ### Nth element of array
@@ -474,7 +666,15 @@ const nth = (arr, n=0) => (n>0? arr.slice(n,n+1) : arr.slice(n))[0];
 // nth(['a','b','c'],1) -> 'b'
 // nth(['a','b','b']-2) -> 'a'
 ```
-
+- ES6
+```js
+var nth = function nth(arr) {
+  var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  return (n > 0 ? arr.slice(n, n + 1) : arr.slice(n))[0];
+};
+// nth(['a','b','c'],1) -> 'b'
+// nth(['a','b','b']-2) -> 'a'
+```
 [⬆ back to top](#table-of-contents)
 
 ### Pick
@@ -488,7 +688,16 @@ const pick = (obj, arr) =>
 // pick({ 'a': 1, 'b': '2', 'c': 3 }, ['a', 'c']) -> { 'a': 1, 'c': 3 }
 // pick(object, ['a', 'c'])['a'] -> 1
 ```
-
+- ES6
+```js
+var pick = function pick(obj, arr) {
+  return arr.reduce(function(acc, curr) {
+    return curr in obj && (acc[curr] = obj[curr]), acc;
+  }, {});
+};
+// pick({ 'a': 1, 'b': '2', 'c': 3 }, ['a', 'c']) -> { 'a': 1, 'c': 3 }
+// pick(object, ['a', 'c'])['a'] -> 1
+```
 [⬆ back to top](#table-of-contents)
 
 ### Shuffle array
@@ -500,7 +709,15 @@ Use `Array.sort()` to reorder elements, using `Math.random()` in the comparator.
 const shuffle = arr => arr.sort(() => Math.random() - 0.5);
 // shuffle([1,2,3]) -> [2,3,1]
 ```
-
+- ES6
+```js
+var shuffle = function shuffle(arr) {
+  return arr.sort(function() {
+    return Math.random() - 0.5;
+  });
+};
+// shuffle([1,2,3]) -> [2,3,1]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Similarity between arrays
@@ -512,7 +729,15 @@ Use `filter()` to remove values that are not part of `values`, determined using 
 const similarity = (arr, values) => arr.filter(v => values.includes(v));
 // similarity([1,2,3], [1,2,4]) -> [1,2]
 ```
-
+- ES6
+```js
+var similarity = function similarity(arr, values) {
+  return arr.filter(function(v) {
+    return values.includes(v);
+  });
+};
+// similarity([1,2,3], [1,2,4]) -> [1,2]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Sum of array of numbers
@@ -524,7 +749,15 @@ Use `Array.reduce()` to add each value to an accumulator, initialized with a val
 const sum = arr => arr.reduce((acc, val) => acc + val, 0);
 // sum([1,2,3,4]) -> 10
 ```
-
+- ES6
+```js
+var sum = function sum(arr) {
+  return arr.reduce(function(acc, val) {
+    return acc + val;
+  }, 0);
+};
+// sum([1,2,3,4]) -> 10
+```
 [⬆ back to top](#table-of-contents)
 
 ### Tail of list
@@ -537,7 +770,14 @@ const tail = arr => arr.length > 1 ? arr.slice(1) : arr;
 // tail([1,2,3]) -> [2,3]
 // tail([1]) -> [1]
 ```
-
+- ES6
+```js
+var tail = function tail(arr) {
+  return arr.length > 1 ? arr.slice(1) : arr;
+};
+// tail([1,2,3]) -> [2,3]
+// tail([1]) -> [1]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Take
@@ -550,7 +790,15 @@ const take = (arr, n = 1) => arr.slice(0, n);
 // take([1, 2, 3], 5) -> [1, 2, 3]
 // take([1, 2, 3], 0) -> []
 ```
-
+- ES6
+```js
+var take = function take(arr) {
+  var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  return arr.slice(0, n);
+};
+// take([1, 2, 3], 5) -> [1, 2, 3]
+// take([1, 2, 3], 0) -> []
+```
 [⬆ back to top](#table-of-contents)
 
 ### Unique values of array
@@ -562,7 +810,24 @@ Use ES6 `Set` and the `...rest` operator to discard all duplicated values.
 const unique = arr => [...new Set(arr)];
 // unique([1,2,2,3,4,4,5]) -> [1,2,3,4,5]
 ```
+- ES6
+```js
+function _toConsumableArray(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+}
 
+var unique = function unique(arr) {
+  return [].concat(_toConsumableArray(new Set(arr)));
+};
+// unique([1,2,2,3,4,4,5]) -> [1,2,3,4,5]
+```
 [⬆ back to top](#table-of-contents)
 ## Browser
 
@@ -576,7 +841,17 @@ const bottomVisible = _ =>
   document.documentElement.clientHeight + window.scrollY >= document.documentElement.scrollHeight || document.documentElement.clientHeight;
 // bottomVisible() -> true
 ```
-
+- ES6
+```js
+var bottomVisible = function bottomVisible(_) {
+  return (
+    document.documentElement.clientHeight + window.scrollY >=
+      document.documentElement.scrollHeight ||
+    document.documentElement.clientHeight
+  );
+};
+// bottomVisible() -> true
+```
 [⬆ back to top](#table-of-contents)
 
 ### Current URL
@@ -588,7 +863,13 @@ Use `window.location.href` to get current URL.
 const currentUrl = _ => window.location.href;
 // currentUrl() -> 'https://google.com'
 ```
-
+- ES6
+```js
+var currentUrl = function currentUrl(_) {
+  return window.location.href;
+};
+// currentUrl() -> 'https://google.com'
+```
 [⬆ back to top](#table-of-contents)
 
 ### Element is visible in viewport
@@ -611,7 +892,28 @@ const elementIsVisibleInViewport = (el, partiallyVisible = false) => {
 // elementIsVisibleInViewport(el) -> false (not fully visible)
 // elementIsVisibleInViewport(el, true) -> true (partially visible)
 ```
+- ES6
+```js
+var elementIsVisibleInViewport = function elementIsVisibleInViewport(el) {
+  var partiallyVisible =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
+  var _el$getBoundingClient = el.getBoundingClientRect(),
+    top = _el$getBoundingClient.top,
+    left = _el$getBoundingClient.left,
+    bottom = _el$getBoundingClient.bottom,
+    right = _el$getBoundingClient.right;
+
+  return partiallyVisible
+    ? ((top > 0 && top < innerHeight) ||
+        (bottom > 0 && bottom < innerHeight)) &&
+      ((left > 0 && left < innerWidth) || (right > 0 && right < innerWidth))
+    : top >= 0 && left >= 0 && bottom <= innerHeight && right <= innerWidth;
+};
+// e.g. 100x100 viewport and a 10x10px element at position {top: -1, left: 0, bottom: 9, right: 10}
+// elementIsVisibleInViewport(el) -> false (not fully visible)
+// elementIsVisibleInViewport(el, true) -> true (partially visible)
+```
 [⬆ back to top](#table-of-contents)
 
 ### Get scroll position
@@ -626,7 +928,18 @@ const getScrollPos = (el = window) =>
     y: (el.pageYOffset !== undefined) ? el.pageYOffset : el.scrollTop});
 // getScrollPos() -> {x: 0, y: 200}
 ```
-
+- ES6
+```js
+var getScrollPos = function getScrollPos() {
+  var el =
+    arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+  return {
+    x: el.pageXOffset !== undefined ? el.pageXOffset : el.scrollLeft,
+    y: el.pageYOffset !== undefined ? el.pageYOffset : el.scrollTop
+  };
+};
+// getScrollPos() -> {x: 0, y: 200}
+```
 [⬆ back to top](#table-of-contents)
 
 ### Redirect to URL
@@ -640,7 +953,15 @@ const redirect = (url, asLink = true) =>
   asLink ? window.location.href = url : window.location.replace(url);
 // redirect('https://google.com')
 ```
-
+- ES6
+```js
+var redirect = function redirect(url) {
+  var asLink =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  return asLink ? (window.location.href = url) : window.location.replace(url);
+};
+// redirect('https://google.com')
+```
 [⬆ back to top](#table-of-contents)
 
 ### Scroll to top
@@ -659,7 +980,17 @@ const scrollToTop = _ => {
 };
 // scrollToTop()
 ```
-
+- ES6
+```js
+var scrollToTop = function scrollToTop(_) {
+  var c = document.documentElement.scrollTop || document.body.scrollTop;
+  if (c > 0) {
+    window.requestAnimationFrame(scrollToTop);
+    window.scrollTo(0, c - c / 8);
+  }
+};
+// scrollToTop()
+```
 [⬆ back to top](#table-of-contents)
 ## Date
 
@@ -672,7 +1003,16 @@ Calculate the difference (in days) between to `Date` objects.
 const getDaysDiffBetweenDates = (dateInitial, dateFinal) => (dateFinal - dateInitial) / (1000 * 3600 * 24);
 // getDaysDiffBetweenDates(new Date("2017-12-13"), new Date("2017-12-22")) -> 9
 ```
-
+- ES6
+```js
+var getDaysDiffBetweenDates = function getDaysDiffBetweenDates(
+  dateInitial,
+  dateFinal
+) {
+  return (dateFinal - dateInitial) / (1000 * 3600 * 24);
+};
+// getDaysDiffBetweenDates(new Date("2017-12-13"), new Date("2017-12-22")) -> 9
+```
 [⬆ back to top](#table-of-contents)
 ## Function
 
@@ -691,7 +1031,23 @@ chainAsync([
 ])
 */
 ```
-
+- ES6
+```js
+var chainAsync = function chainAsync(fns) {
+  var curr = 0;
+  var next = function next() {
+    return fns[curr++](next);
+  };
+  next();
+};
+/*
+chainAsync([
+  next => { console.log('0 seconds'); setTimeout(next, 1000); },
+  next => { console.log('1 second');  setTimeout(next, 1000); },
+  next => { console.log('2 seconds'); }
+])
+*/
+```
 [⬆ back to top](#table-of-contents)
 
 ### Curry
@@ -710,7 +1066,30 @@ const curry = (fn, arity = fn.length, ...args) =>
 // curry(Math.pow)(2)(10) -> 1024
 // curry(Math.min, 3)(10)(50)(2) -> 2
 ```
+- ES6
+```js
+var curry = function curry(fn) {
+  for (
+    var _len = arguments.length,
+      args = Array(_len > 2 ? _len - 2 : 0),
+      _key = 2;
+    _key < _len;
+    _key++
+  ) {
+    args[_key - 2] = arguments[_key];
+  }
 
+  var arity =
+    arguments.length > 1 && arguments[1] !== undefined
+      ? arguments[1]
+      : fn.length;
+  return arity <= args.length
+    ? fn.apply(undefined, args)
+    : curry.bind.apply(curry, [null, fn, arity].concat(args));
+};
+// curry(Math.pow)(2)(10) -> 1024
+// curry(Math.min, 3)(10)(50)(2) -> 2
+```
 [⬆ back to top](#table-of-contents)
 
 ### Pipe
@@ -722,7 +1101,25 @@ Use `Array.reduce()` to pass value through functions.
 const pipe = (...funcs) => arg => funcs.reduce((acc, func) => func(acc), arg);
 // pipe(btoa, x => x.toUpperCase())("Test") -> "VGVZDA=="
 ```
+- ES6
+```js
+var pipe = function pipe() {
+  for (
+    var _len = arguments.length, funcs = Array(_len), _key = 0;
+    _key < _len;
+    _key++
+  ) {
+    funcs[_key] = arguments[_key];
+  }
 
+  return function(arg) {
+    return funcs.reduce(function(acc, func) {
+      return func(acc);
+    }, arg);
+  };
+};
+// pipe(btoa, x => x.toUpperCase())("Test") -> "VGVZDA=="
+```
 [⬆ back to top](#table-of-contents)
 
 ### Promisify
@@ -743,7 +1140,33 @@ const promisify = func =>
 // const delay = promisify((d, cb) => setTimeout(cb, d))
 // delay(2000).then(() => console.log('Hi!')) -> Promise resolves after 2s
 ```
+- ES6
+```js
+var promisify = function promisify(func) {
+  return function() {
+    for (
+      var _len = arguments.length, args = Array(_len), _key = 0;
+      _key < _len;
+      _key++
+    ) {
+      args[_key] = arguments[_key];
+    }
 
+    return new Promise(function(resolve, reject) {
+      return func.apply(
+        undefined,
+        args.concat([
+          function(err, result) {
+            return err ? reject(err) : resolve(result);
+          }
+        ])
+      );
+    });
+  };
+};
+// const delay = promisify((d, cb) => setTimeout(cb, d))
+// delay(2000).then(() => console.log('Hi!')) -> Promise resolves after 2s
+```
 [⬆ back to top](#table-of-contents)
 
 ### Run promises in series
@@ -756,7 +1179,16 @@ const series = ps => ps.reduce((p, next) => p.then(next), Promise.resolve());
 // const delay = (d) => new Promise(r => setTimeout(r, d))
 // series([() => delay(1000), () => delay(2000)]) -> executes each promise sequentially, taking a total of 3 seconds to complete
 ```
-
+- ES6
+```js
+var series = function series(ps) {
+  return ps.reduce(function(p, next) {
+    return p.then(next);
+  }, Promise.resolve());
+};
+// const delay = (d) => new Promise(r => setTimeout(r, d))
+// series([() => delay(1000), () => delay(2000)]) -> executes each promise sequentially, taking a total of 3 seconds to complete
+```
 [⬆ back to top](#table-of-contents)
 
 ### Sleep
@@ -774,7 +1206,21 @@ async function sleepyWork() {
 }
 */
 ```
-
+- ES6
+```js
+var sleep = function sleep(ms) {
+  return new Promise(function(resolve) {
+    return setTimeout(resolve, ms);
+  });
+};
+/*
+async function sleepyWork() {
+  console.log('I\'m going to sleep for 1 second.');
+  await sleep(1000);
+  console.log('I woke up after 1 second.');
+}
+*/
+```
 [⬆ back to top](#table-of-contents)
 ## Math
 
@@ -788,7 +1234,14 @@ const collatz = n => (n % 2 == 0) ? (n / 2) : (3 * n + 1);
 // collatz(8) --> 4
 // collatz(5) --> 16
 ```
-
+- ES6
+```js
+var collatz = function collatz(n) {
+  return n % 2 == 0 ? n / 2 : 3 * n + 1;
+};
+// collatz(8) --> 4
+// collatz(5) --> 16
+```
 [⬆ back to top](#table-of-contents)
 
 ### Distance between two points
@@ -800,7 +1253,13 @@ Use `Math.hypot()` to calculate the Euclidean distance between two points.
 const distance = (x0, y0, x1, y1) => Math.hypot(x1 - x0, y1 - y0);
 // distance(1,1, 2,3) -> 2.23606797749979
 ```
-
+- ES6
+```js
+var distance = function distance(x0, y0, x1, y1) {
+  return Math.hypot(x1 - x0, y1 - y0);
+};
+// distance(1,1, 2,3) -> 2.23606797749979
+```
 [⬆ back to top](#table-of-contents)
 
 ### Divisible by number
@@ -812,7 +1271,13 @@ Use the modulo operator (`%`) to check if the remainder is equal to `0`.
 const isDivisible = (dividend, divisor) => dividend % divisor === 0;
 // isDivisible(6,3) -> true
 ```
-
+- ES6
+```js
+var isDivisible = function isDivisible(dividend, divisor) {
+  return dividend % divisor === 0;
+};
+// isDivisible(6,3) -> true
+```
 [⬆ back to top](#table-of-contents)
 
 ### Even or odd number
@@ -825,7 +1290,13 @@ Returns `true` if the number is even, `false` if the number is odd.
 const isEven = num => num % 2 === 0;
 // isEven(3) -> false
 ```
-
+- ES6
+```js
+var isEven = function isEven(num) {
+  return num % 2 === 0;
+};
+// isEven(3) -> false
+```
 [⬆ back to top](#table-of-contents)
 
 ### Factorial
@@ -839,7 +1310,13 @@ Otherwise, return the product of `n` and the factorial of `n - 1`.
 const factorial = n => n <= 1 ? 1 : n * factorial(n - 1);
 // factorial(6) -> 720
 ```
-
+- ES6
+```js
+var factorial = function factorial(n) {
+  return n <= 1 ? 1 : n * factorial(n - 1);
+};
+// factorial(6) -> 720
+```
 [⬆ back to top](#table-of-contents)
 
 ### Fibonacci array generator
@@ -853,7 +1330,17 @@ const fibonacci = n =>
   Array(n).fill(0).reduce((acc, val, i) => acc.concat(i > 1 ? acc[i - 1] + acc[i - 2] : i), []);
 // fibonacci(5) -> [0,1,1,2,3]
 ```
-
+- ES6
+```js
+var fibonacci = function fibonacci(n) {
+  return Array(n)
+    .fill(0)
+    .reduce(function(acc, val, i) {
+      return acc.concat(i > 1 ? acc[i - 1] + acc[i - 2] : i);
+    }, []);
+};
+// fibonacci(5) -> [0,1,1,2,3]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Greatest common divisor (GCD)
@@ -867,7 +1354,13 @@ Otherwise, return the GCD of `y` and the remainder of the division `x/y`.
 const gcd = (x, y) => !y ? x : gcd(y, x % y);
 // gcd (8, 36) -> 4
 ```
-
+- ES6
+```js
+var gcd = function gcd(x, y) {
+  return !y ? x : gcd(y, x % y);
+};
+// gcd (8, 36) -> 4
+```
 [⬆ back to top](#table-of-contents)
 
 ### Hamming distance
@@ -881,7 +1374,13 @@ const hammingDistance = (num1, num2) =>
   ((num1 ^ num2).toString(2).match(/1/g) || '').length;
 // hammingDistance(2,3) -> 1
 ```
-
+- ES6
+```js
+var hammingDistance = function hammingDistance(num1, num2) {
+  return ((num1 ^ num2).toString(2).match(/1/g) || "").length;
+};
+// hammingDistance(2,3) -> 1
+```
 [⬆ back to top](#table-of-contents)
 
 ### Percentile
@@ -895,7 +1394,19 @@ const percentile = (arr, val) =>
   100 * arr.reduce((acc,v) => acc + (v < val ? 1 : 0) + (v === val ? 0.5 : 0), 0) / arr.length;
 // percentile([1,2,3,4,5,6,7,8,9,10], 6) -> 55
  ```
-
+- ES6
+```js
+var percentile = function percentile(arr, val) {
+  return (
+    100 *
+    arr.reduce(function(acc, v) {
+      return acc + (v < val ? 1 : 0) + (v === val ? 0.5 : 0);
+    }, 0) /
+    arr.length
+  );
+};
+// percentile([1,2,3,4,5,6,7,8,9,10], 6) -> 55
+ ```
 [⬆ back to top](#table-of-contents)
 
 ### Powerset
@@ -908,7 +1419,22 @@ const powerset = arr =>
   arr.reduce((a, v) => a.concat(a.map(r => [v].concat(r))), [[]]);
 // powerset([1,2]) -> [[], [1], [2], [2,1]]
 ```
-
+- ES6
+```js
+var powerset = function powerset(arr) {
+  return arr.reduce(
+    function(a, v) {
+      return a.concat(
+        a.map(function(r) {
+          return [v].concat(r);
+        })
+      );
+    },
+    [[]]
+  );
+};
+// powerset([1,2]) -> [[], [1], [2], [2,1]]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Round number to n digits
@@ -921,7 +1447,15 @@ Omit the second argument, `decimals` to round to an integer.
 const round = (n, decimals=0) => Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`);
 // round(1.005, 2) -> 1.01
 ```
-
+- ES6
+```js
+var round = function round(n) {
+  var decimals =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  return Number(Math.round(n + "e" + decimals) + "e-" + decimals);
+};
+// round(1.005, 2) -> 1.01
+```
 [⬆ back to top](#table-of-contents)
 
 ### Standard deviation
@@ -942,7 +1476,30 @@ const standardDeviation = (arr, usePopulation = false) => {
 // standardDeviation([10,2,38,23,38,23,21]) -> 13.284434142114991 (sample)
 // standardDeviation([10,2,38,23,38,23,21], true) -> 12.29899614287479 (population)
 ```
+- ES6
+```js
+var standardDeviation = function standardDeviation(arr) {
+  var usePopulation =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
+  var mean =
+    arr.reduce(function(acc, val) {
+      return acc + val;
+    }, 0) / arr.length;
+  return Math.sqrt(
+    arr
+      .reduce(function(acc, val) {
+        return acc.concat(Math.pow(val - mean, 2));
+      }, [])
+      .reduce(function(acc, val) {
+        return acc + val;
+      }, 0) /
+      (arr.length - (usePopulation ? 0 : 1))
+  );
+};
+// standardDeviation([10,2,38,23,38,23,21]) -> 13.284434142114991 (sample)
+// standardDeviation([10,2,38,23,38,23,21], true) -> 12.29899614287479 (population)
+```
 [⬆ back to top](#table-of-contents)
 ## Media
 
@@ -962,7 +1519,15 @@ const speak = message => {
 };
 // speak('Hello, World') -> plays the message
 ```
-
+- ES6
+```js
+var speak = function speak(message) {
+  var msg = new SpeechSynthesisUtterance(message);
+  msg.voice = window.speechSynthesis.getVoices()[0];
+  window.speechSynthesis.speak(msg);
+};
+// speak('Hello, World') -> plays the message
+```
 [⬆ back to top](#table-of-contents)
 ## Object
 
@@ -975,7 +1540,15 @@ Use `Array.reduce()` to create and combine key-value pairs.
 const objectFromPairs = arr => arr.reduce((a, v) => (a[v[0]] = v[1], a), {});
 // objectFromPairs([['a',1],['b',2]]) -> {a: 1, b: 2}
 ```
-
+- ES6
+```js
+var objectFromPairs = function objectFromPairs(arr) {
+  return arr.reduce(function(a, v) {
+    return (a[v[0]] = v[1]), a;
+  }, {});
+};
+// objectFromPairs([['a',1],['b',2]]) -> {a: 1, b: 2}
+```
 [⬆ back to top](#table-of-contents)
 
 ### Object to key-value pairs
@@ -987,7 +1560,15 @@ Use `Object.keys()` and `Array.map()` to iterate over the object's keys and prod
 const objectToPairs = obj => Object.keys(obj).map(k => [k, obj[k]]);
 // objectToPairs({a: 1, b: 2}) -> [['a',1],['b',2]])
 ```
-
+- ES6
+```js
+var objectToPairs = function objectToPairs(obj) {
+  return Object.keys(obj).map(function(k) {
+    return [k, obj[k]];
+  });
+};
+// objectToPairs({a: 1, b: 2}) -> [['a',1],['b',2]])
+```
 [⬆ back to top](#table-of-contents)
 
 ### Shallow clone object
@@ -1003,7 +1584,6 @@ const b = shallowClone(a);
 a === b -> false
 */
 ```
-
 [⬆ back to top](#table-of-contents)
 ## String
 
@@ -1023,7 +1603,20 @@ const anagrams = str => {
 };
 // anagrams('abc') -> ['abc','acb','bac','bca','cab','cba']
 ```
-
+- ES6
+```js
+var anagrams = function anagrams(str) {
+  if (str.length <= 2) return str.length === 2 ? [str, str[1] + str[0]] : [str];
+  return str.split("").reduce(function(acc, letter, i) {
+    return acc.concat(
+      anagrams(str.slice(0, i) + str.slice(i + 1)).map(function(val) {
+        return letter + val;
+      })
+    );
+  }, []);
+};
+// anagrams('abc') -> ['abc','acb','bac','bca','cab','cba']
+```
 [⬆ back to top](#table-of-contents)
 
 ### Capitalize first letter of every word
@@ -1035,7 +1628,15 @@ Use `replace()` to match the first character of each word and `toUpperCase()` to
 const capitalizeEveryWord = str => str.replace(/\b[a-z]/g, char => char.toUpperCase());
 // capitalizeEveryWord('hello world!') -> 'Hello World!'
 ```
-
+- ES6
+```js
+var capitalizeEveryWord = function capitalizeEveryWord(str) {
+  return str.replace(/\b[a-z]/g, function(char) {
+    return char.toUpperCase();
+  });
+};
+// capitalizeEveryWord('hello world!') -> 'Hello World!'
+```
 [⬆ back to top](#table-of-contents)
 
 ### Capitalize first letter
@@ -1049,7 +1650,18 @@ const capitalize = (str, lowerRest = false) =>
   str.slice(0, 1).toUpperCase() + (lowerRest ? str.slice(1).toLowerCase() : str.slice(1));
 // capitalize('myName', true) -> 'Myname'
 ```
-
+- ES6
+```js
+var capitalize = function capitalize(str) {
+  var lowerRest =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  return (
+    str.slice(0, 1).toUpperCase() +
+    (lowerRest ? str.slice(1).toLowerCase() : str.slice(1))
+  );
+};
+// capitalize('myName', true) -> 'Myname'
+```
 [⬆ back to top](#table-of-contents)
 
 ### Check for palindrome
@@ -1065,7 +1677,20 @@ const palindrome = str => {
 }
 // palindrome('taco cat') -> true
  ```
-
+- ES6
+```js
+var palindrome = function palindrome(str) {
+  var s = str.toLowerCase().replace(/[\W_]/g, "");
+  return (
+    s ===
+    s
+      .split("")
+      .reverse()
+      .join("")
+  );
+};
+// palindrome('taco cat') -> true
+ ```
 [⬆ back to top](#table-of-contents)
 
 ### Reverse a string
