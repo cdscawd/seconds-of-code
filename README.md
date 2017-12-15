@@ -118,8 +118,6 @@
 
 ### Array concatenation
 #### 拼接
-- 拼接
-* 拼接
 Use `Array.concat()` to concatenate an array with any additional arrays and/or values, specified in `args`.
 
 ```js
@@ -129,9 +127,9 @@ const arrayConcat = (arr, ...args) => arr.concat(...args);
 
 [⬆ back to top](#table-of-contents)
 
-### Array difference(差异)
-
-Create a `Set` from `b`, then use `Array.filter()` on `a` to only keep values not contained in `b`.
+### Array difference
+#### 差异
+- Create a `Set` from `b`, then use `Array.filter()` on `a` to only keep values not contained in `b`.
 
 ```js
 const difference = (a, b) => { const s = new Set(b); return a.filter(x => !s.has(x)); };
@@ -140,9 +138,9 @@ const difference = (a, b) => { const s = new Set(b); return a.filter(x => !s.has
 
 [⬆ back to top](#table-of-contents)
 
-### Array intersection(交叉)
-
-Create a `Set` from `b`, then use `Array.filter()` on `a` to only keep values contained in `b`.
+### Array intersection
+#### 交叉
+- Create a `Set` from `b`, then use `Array.filter()` on `a` to only keep values contained in `b`.
 
 ```js
 const intersection = (a, b) => { const s = new Set(b); return a.filter(x => s.has(x)); };
@@ -151,9 +149,9 @@ const intersection = (a, b) => { const s = new Set(b); return a.filter(x => s.ha
 
 [⬆ back to top](#table-of-contents)
 
-### Array union(联合)
-
-Create a `Set` with all values of `a` and `b` and convert to an array.
+### Array union
+#### 联合
+- Create a `Set` with all values of `a` and `b` and convert to an array.
 
 ```js
 const union = (a, b) => Array.from(new Set([...a, ...b]));
@@ -162,9 +160,9 @@ const union = (a, b) => Array.from(new Set([...a, ...b]));
 
 [⬆ back to top](#table-of-contents)
 
-### Average of array of numbers(平均)
-
-Use `Array.reduce()` to add each value to an accumulator, initialized with a value of `0`, divide by the `length` of the array.
+### Average of array of numbers
+#### 平均
+- Use `Array.reduce()` to add each value to an accumulator, initialized with a value of `0`, divide by the `length` of the array.
 
 ```js
 const average = arr => arr.reduce((acc, val) => acc + val, 0) / arr.length;
@@ -173,9 +171,9 @@ const average = arr => arr.reduce((acc, val) => acc + val, 0) / arr.length;
 
 [⬆ back to top](#table-of-contents)
 
-### Chunk array(重组整列)
-
-Use `Array.from()` to create a new array, that fits the number of chunks that will be produced.
+### Chunk array
+#### 重组整列
+- Use `Array.from()` to create a new array, that fits the number of chunks that will be produced.
 Use `Array.slice()` to map each element of the new array to a chunk the length of `size`.
 If the original array can't be split evenly, the final chunk will contain the remaining elements.
 
@@ -187,9 +185,9 @@ const chunk = (arr, size) =>
 
 [⬆ back to top](#table-of-contents)
 
-### Compact(有效值)
-
-Use `Array.filter()` to filter out falsey values (`false`, `null`, `0`, `""`, `undefined`, and `NaN`).
+### Compact
+#### 有效值
+- Use `Array.filter()` to filter out falsey values (`false`, `null`, `0`, `""`, `undefined`, and `NaN`).
 
 ```js
 const compact = (arr) => arr.filter(v => v);
@@ -198,9 +196,9 @@ const compact = (arr) => arr.filter(v => v);
 
 [⬆ back to top](#table-of-contents)
 
-### Count occurrences of a value in array(存在总数)
-
-Use `Array.reduce()` to increment a counter each time you encounter the specific value inside the array.
+### Count occurrences of a value in array
+#### 存在总数
+- Use `Array.reduce()` to increment a counter each time you encounter the specific value inside the array.
 
 ```js
 const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 1 : a + 0, 0);
@@ -209,9 +207,9 @@ const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 
 
 [⬆ back to top](#table-of-contents)
 
-### Deep flatten array(深平阵数组)
-
-Use recursion.
+### Deep flatten array
+#### 深平阵数组
+- Use recursion.
 Use `Array.reduce()` to get all elements that are not arrays, flatten each element that is an array.
 
 ```js
@@ -222,9 +220,9 @@ const deepFlatten = arr =>
 
 [⬆ back to top](#table-of-contents)
 
-### Drop elements in array(提取条件项)
-
-Loop through the array, using `Array.shift()` to drop the first element of the array until the returned value from the function is `true`. 
+### Drop elements in array
+#### 提取条件项
+- Loop through the array, using `Array.shift()` to drop the first element of the array until the returned value from the function is `true`. 
 Returns the remaining elements.
 
 ```js
