@@ -1,12 +1,9 @@
 ## Contributing
 
-**30 seconds of code** is a community effort, so feel free to contribute in any way you can. Every contribution helps!
+**seconds of code** is a community effort, so feel free to contribute in any way you can. Every contribution helps!
 
 Here's what you can do to help:
 
-- [Open issues](https://github.com/Chalarangelo/30-seconds-of-code/issues/new) for things you want to see added or modified.
-- Be part of the discussion by helping out with [existing issues](https://github.com/Chalarangelo/30-seconds-of-code/issues) or talking on our [gitter channel](https://gitter.im/30-seconds-of-code/Lobby).
-- Submit [pull requests](https://github.com/Chalarangelo/30-seconds-of-code/pulls) with snippets you have created (see below for guidelines).
 - Tag untagged snippets by running `npm run tagger` and adding the appropriate tag next to the script name in `tag_database`.
 - Fix typos in existing snippets or run `npm run linter` to lint unlinted snippets (yes, this is something we actually want help with, as this can take quite a while to run).
 
