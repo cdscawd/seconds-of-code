@@ -140,40 +140,77 @@ var arrayConcat = function arrayConcat(arr) {
 ### Array difference
 #### 差异
 - Create a `Set` from `b`, then use `Array.filter()` on `a` to only keep values not contained in `b`.
-
+- ES6
 ```js
 const difference = (a, b) => { const s = new Set(b); return a.filter(x => !s.has(x)); };
 // difference([1,2,3], [1,2]) -> [3]
 ```
-
+- ES5
+```js
+var difference = function difference(a, b) {
+  var s = new Set(b);return a.filter(function (x) {
+    return !s.has(x);
+  });
+};
+// difference([1,2,3], [1,2]) -> [3]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Array intersection
 #### 交叉
 - Create a `Set` from `b`, then use `Array.filter()` on `a` to only keep values contained in `b`.
-
+- ES6
 ```js
 const intersection = (a, b) => { const s = new Set(b); return a.filter(x => s.has(x)); };
 // intersection([1,2,3], [4,3,2]) -> [2,3]
 ```
-
+- ES5
+```js
+var intersection = function intersection(a, b) {
+  var s = new Set(b);return a.filter(function (x) {
+    return s.has(x);
+  });
+};
+// intersection([1,2,3], [4,3,2]) -> [2,3]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Array union
 #### 联合
 - Create a `Set` with all values of `a` and `b` and convert to an array.
 
+- ES6
 ```js
 const union = (a, b) => Array.from(new Set([...a, ...b]));
 // union([1,2,3], [4,3,2]) -> [1,2,3,4]
 ```
+- ES5
+```js
+function _toConsumableArray(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+}
 
+var union = function union(a, b) {
+  return Array.from(
+    new Set([].concat(_toConsumableArray(a), _toConsumableArray(b)))
+  );
+};
+// union([1,2,3], [4,3,2]) -> [1,2,3,4]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Average of array of numbers
 #### 平均
 - Use `Array.reduce()` to add each value to an accumulator, initialized with a value of `0`, divide by the `length` of the array.
 
+- ES6
 ```js
 const average = arr => arr.reduce((acc, val) => acc + val, 0) / arr.length;
 // average([1,2,3]) -> 2
@@ -187,6 +224,7 @@ const average = arr => arr.reduce((acc, val) => acc + val, 0) / arr.length;
 Use `Array.slice()` to map each element of the new array to a chunk the length of `size`.
 If the original array can't be split evenly, the final chunk will contain the remaining elements.
 
+- ES6
 ```js
 const chunk = (arr, size) =>
   Array.from({length: Math.ceil(arr.length / size)}, (v, i) => arr.slice(i * size, i * size + size));
@@ -199,6 +237,7 @@ const chunk = (arr, size) =>
 #### 有效值
 - Use `Array.filter()` to filter out falsey values (`false`, `null`, `0`, `""`, `undefined`, and `NaN`).
 
+- ES6
 ```js
 const compact = (arr) => arr.filter(v => v);
 // compact([0, 1, false, 2, '', 3, 'a', 'e'*23, NaN, 's', 34]) -> [ 1, 2, 3, 'a', 's', 34 ]
@@ -210,6 +249,7 @@ const compact = (arr) => arr.filter(v => v);
 #### 存在总数
 - Use `Array.reduce()` to increment a counter each time you encounter the specific value inside the array.
 
+- ES6
 ```js
 const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 1 : a + 0, 0);
 // countOccurrences([1,1,2,1,2,3], 1) -> 3
@@ -222,6 +262,7 @@ const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 
 - Use recursion.
 Use `Array.reduce()` to get all elements that are not arrays, flatten each element that is an array.
 
+- ES6
 ```js
 const deepFlatten = arr =>
   arr.reduce((a, v) => a.concat(Array.isArray(v) ? deepFlatten(v) : v), []);
@@ -235,6 +276,7 @@ const deepFlatten = arr =>
 - Loop through the array, using `Array.shift()` to drop the first element of the array until the returned value from the function is `true`. 
 Returns the remaining elements.
 
+- ES6
 ```js
 const dropElements = (arr, func) => {
   while (arr.length > 0 && !func(arr[0])) arr.shift();
@@ -250,6 +292,7 @@ const dropElements = (arr, func) => {
 Use `Array.map()` to map values between `start` (inclusive) and `end` (exclusive) to `value`.
 Omit `start` to start at the first element and/or `end` to finish at the last.
 
+- ES6
 ```js
 const fillArray = (arr, value, start = 0, end = arr.length) =>
   arr.map((v, i) => i >= start && i < end ? value : v);
@@ -262,6 +305,7 @@ const fillArray = (arr, value, start = 0, end = arr.length) =>
 
 Use `Array.filter()` for an array containing only the unique values.
 
+- ES6
 ```js
 const filterNonUnique = arr => arr.filter(i => arr.indexOf(i) === arr.lastIndexOf(i));
 // filterNonUnique([1,2,2,3,4,4,5]) -> [1,3,5]
@@ -276,6 +320,7 @@ Use `Array.reduce()` and `Array.concat()` to merge elements or arrays.
 Base case, for `depth` equal to `1` stops recursion.
 Omit the second element, `depth` to flatten only to a depth of `1` (single flatten).
 
+- ES6
 ```js
 const flattenDepth = (arr, depth = 1) =>
   depth != 1 ? arr.reduce((a, v) => a.concat(Array.isArray(v) ? flattenDepth(v, depth - 1) : v), [])
@@ -289,6 +334,7 @@ const flattenDepth = (arr, depth = 1) =>
 
 Use `Array.reduce()` to get all elements inside the array and `concat()` to flatten them.
 
+- ES6
 ```js
 const flatten = arr => arr.reduce((a, v) => a.concat(v), []);
 // flatten([1,[2],3,4]) -> [1,2,3,4]
@@ -300,6 +346,7 @@ const flatten = arr => arr.reduce((a, v) => a.concat(v), []);
 
 Use `Math.max()` combined with the spread operator (`...`) to get the maximum value in the array.
 
+- ES6
 ```js
 const arrayMax = arr => Math.max(...arr);
 // arrayMax([10, 1, 5]) -> 10
@@ -311,6 +358,7 @@ const arrayMax = arr => Math.max(...arr);
 
 Use `Math.min()` combined with the spread operator (`...`) to get the minimum value in the array.
 
+- ES6
 ```js
 const arrayMin = arr => Math.min(...arr);
 // arrayMin([10, 1, 5]) -> 1
@@ -323,6 +371,7 @@ const arrayMin = arr => Math.min(...arr);
 Use `Array.map()` to map the values of an array to a function or property name.
 Use `Array.reduce()` to create an object, where the keys are produced from the mapped results.
 
+- ES6
 ```js
 const groupBy = (arr, func) =>
   arr.map(typeof func === 'function' ? func : val => val[func])
@@ -337,6 +386,7 @@ const groupBy = (arr, func) =>
 
 Use `arr[0]` to return the first element of the passed array.
 
+- ES6
 ```js
 const head = arr => arr[0];
 // head([1,2,3]) -> 1
@@ -348,6 +398,7 @@ const head = arr => arr[0];
 
 Use `arr.slice(0,-1)`to return all but the last element of the array.
 
+- ES6
 ```js
 const initial = arr => arr.slice(0, -1);
 // initial([1,2,3]) -> [1,2]
@@ -360,6 +411,7 @@ const initial = arr => arr.slice(0, -1);
 Use `Array(end-start)` to create an array of the desired length, `Array.map()` to fill with the desired values in a range.
 You can omit `start` to use a default value of `0`.
 
+- ES6
 ```js
 const initializeArrayRange = (end, start = 0) =>
   Array.apply(null, Array(end - start)).map((v, i) => i + start);
@@ -373,6 +425,7 @@ const initializeArrayRange = (end, start = 0) =>
 Use `Array(n)` to create an array of the desired length, `fill(v)` to fill it with the desired values.
 You can omit `value` to use a default value of `0`.
 
+- ES6
 ```js
 const initializeArray = (n, value = 0) => Array(n).fill(value);
 // initializeArray(5, 2) -> [2,2,2,2,2]
@@ -384,6 +437,7 @@ const initializeArray = (n, value = 0) => Array(n).fill(value);
 
 Use `arr.slice(-1)[0]` to get the last element of the given array.
 
+- ES6
 ```js
 const last = arr => arr.slice(-1)[0];
 // last([1,2,3]) -> 3
@@ -396,6 +450,7 @@ const last = arr => arr.slice(-1)[0];
 Find the middle of the array, use `Array.sort()` to sort the values.
 Return the number at the midpoint if `length` is odd, otherwise the average of the two middle numbers.
 
+- ES6
 ```js
 const median = arr => {
   const mid = Math.floor(arr.length / 2), nums = arr.sort((a, b) => a - b);
@@ -413,6 +468,7 @@ Use `Array.slice()` to get an array containing the nth element at the first plac
 If the index is out of bounds, return `[]`.
 Omit the second argument, `n`, to get the first element of the array.
 
+- ES6
 ```js
 const nth = (arr, n=0) => (n>0? arr.slice(n,n+1) : arr.slice(n))[0];
 // nth(['a','b','c'],1) -> 'b'
@@ -425,6 +481,7 @@ const nth = (arr, n=0) => (n>0? arr.slice(n,n+1) : arr.slice(n))[0];
 
 Use `Array.reduce()` to convert the filtered/picked keys back to a object with the corresponding key:value pair if the key exist in the obj.
 
+- ES6
 ```js
 const pick = (obj, arr) =>
   arr.reduce((acc, curr) => (curr in obj && (acc[curr] = obj[curr]), acc), {});
@@ -438,6 +495,7 @@ const pick = (obj, arr) =>
 
 Use `Array.sort()` to reorder elements, using `Math.random()` in the comparator.
 
+- ES6
 ```js
 const shuffle = arr => arr.sort(() => Math.random() - 0.5);
 // shuffle([1,2,3]) -> [2,3,1]
@@ -449,6 +507,7 @@ const shuffle = arr => arr.sort(() => Math.random() - 0.5);
 
 Use `filter()` to remove values that are not part of `values`, determined using `includes()`.
 
+- ES6
 ```js
 const similarity = (arr, values) => arr.filter(v => values.includes(v));
 // similarity([1,2,3], [1,2,4]) -> [1,2]
@@ -460,6 +519,7 @@ const similarity = (arr, values) => arr.filter(v => values.includes(v));
 
 Use `Array.reduce()` to add each value to an accumulator, initialized with a value of `0`.
 
+- ES6
 ```js
 const sum = arr => arr.reduce((acc, val) => acc + val, 0);
 // sum([1,2,3,4]) -> 10
@@ -471,6 +531,7 @@ const sum = arr => arr.reduce((acc, val) => acc + val, 0);
 
 Return `arr.slice(1)` if the array's `length` is more than `1`, otherwise return the whole array.
 
+- ES6
 ```js
 const tail = arr => arr.length > 1 ? arr.slice(1) : arr;
 // tail([1,2,3]) -> [2,3]
@@ -483,6 +544,7 @@ const tail = arr => arr.length > 1 ? arr.slice(1) : arr;
 
 Use `Array.slice()` to create a slice of the array with `n` elements taken from the beginning.
 
+- ES6
 ```js
 const take = (arr, n = 1) => arr.slice(0, n);
 // take([1, 2, 3], 5) -> [1, 2, 3]
@@ -495,6 +557,7 @@ const take = (arr, n = 1) => arr.slice(0, n);
 
 Use ES6 `Set` and the `...rest` operator to discard all duplicated values.
 
+- ES6
 ```js
 const unique = arr => [...new Set(arr)];
 // unique([1,2,2,3,4,4,5]) -> [1,2,3,4,5]
@@ -507,6 +570,7 @@ const unique = arr => [...new Set(arr)];
 
 Use `scrollY`, `scrollHeight` and `clientHeight` to determine if the bottom of the page is visible.
 
+- ES6
 ```js
 const bottomVisible = _ =>
   document.documentElement.clientHeight + window.scrollY >= document.documentElement.scrollHeight || document.documentElement.clientHeight;
@@ -519,6 +583,7 @@ const bottomVisible = _ =>
 
 Use `window.location.href` to get current URL.
 
+- ES6
 ```js
 const currentUrl = _ => window.location.href;
 // currentUrl() -> 'https://google.com'
@@ -533,6 +598,7 @@ to determine if a given element is visible in the viewport.
 Omit the second argument to determine if the element is entirely visible, or specify `true` to determine if
 it is partially visible.
 
+- ES6
 ```js
 const elementIsVisibleInViewport = (el, partiallyVisible = false) => {
   const { top, left, bottom, right } = el.getBoundingClientRect();
@@ -553,6 +619,7 @@ const elementIsVisibleInViewport = (el, partiallyVisible = false) => {
 Use `pageXOffset` and `pageYOffset` if they are defined, otherwise `scrollLeft` and `scrollTop`.
 You can omit `el` to use a default value of `window`.
 
+- ES6
 ```js
 const getScrollPos = (el = window) =>
   ({x: (el.pageXOffset !== undefined) ? el.pageXOffset : el.scrollLeft,
@@ -567,6 +634,7 @@ const getScrollPos = (el = window) =>
 Use `window.location.href` or `window.location.replace()` to redirect to `url`.
 Pass a second argument to simulate a link click (`true` - default) or an HTTP redirect (`false`).
 
+- ES6
 ```js
 const redirect = (url, asLink = true) =>
   asLink ? window.location.href = url : window.location.replace(url);
@@ -580,6 +648,7 @@ const redirect = (url, asLink = true) =>
 Get distance from top using `document.documentElement.scrollTop` or `document.body.scrollTop`.
 Scroll by a fraction of the distance from top. Use `window.requestAnimationFrame()` to animate the scrolling.
 
+- ES6
 ```js
 const scrollToTop = _ => {
   const c = document.documentElement.scrollTop || document.body.scrollTop;
@@ -598,6 +667,7 @@ const scrollToTop = _ => {
 
 Calculate the difference (in days) between to `Date` objects.
 
+- ES6
 ```js
 const getDaysDiffBetweenDates = (dateInitial, dateFinal) => (dateFinal - dateInitial) / (1000 * 3600 * 24);
 // getDaysDiffBetweenDates(new Date("2017-12-13"), new Date("2017-12-22")) -> 9
@@ -610,6 +680,7 @@ const getDaysDiffBetweenDates = (dateInitial, dateFinal) => (dateFinal - dateIni
 
 Loop through an array of functions containing asynchronous events, calling `next` when each asynchronous event has completed.
 
+- ES6
 ```js
 const chainAsync = fns => { let curr = 0; const next = () => fns[curr++](next); next(); };
 /*
@@ -630,6 +701,7 @@ If the number of provided arguments (`args`) is sufficient, call the passed func
 Otherwise return a curried function `f` that expects the rest of the arguments.
 If you want to curry a function that accepts a variable number of arguments (a variadic function, e.g. `Math.min()`), you can optionally pass the number of arguments to the second parameter `arity`.
 
+- ES6
 ```js
 const curry = (fn, arity = fn.length, ...args) =>
   arity <= args.length
@@ -645,6 +717,7 @@ const curry = (fn, arity = fn.length, ...args) =>
 
 Use `Array.reduce()` to pass value through functions.
 
+- ES6
 ```js
 const pipe = (...funcs) => arg => funcs.reduce((acc, func) => func(acc), arg);
 // pipe(btoa, x => x.toUpperCase())("Test") -> "VGVZDA=="
@@ -659,6 +732,7 @@ Use the `...rest` operator to pass in all the parameters.
 
 *In Node 8+, you can use [`util.promisify`](https://nodejs.org/api/util.html#util_util_promisify_original)*
 
+- ES6
 ```js
 const promisify = func =>
   (...args) =>
@@ -676,6 +750,7 @@ const promisify = func =>
 
 Run an array of promises in series using `Array.reduce()` by creating a promise chain, where each promise returns the next promise when resolved.
 
+- ES6
 ```js
 const series = ps => ps.reduce((p, next) => p.then(next), Promise.resolve());
 // const delay = (d) => new Promise(r => setTimeout(r, d))
@@ -688,6 +763,7 @@ const series = ps => ps.reduce((p, next) => p.then(next), Promise.resolve());
 
 Delay executing part of an `async` function, by putting it to sleep, returning a `Promise`.
 
+- ES6
 ```js
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 /*
@@ -706,6 +782,7 @@ async function sleepyWork() {
 
 If `n` is even, return `n/2`. Otherwise  return `3n+1`.
 
+- ES6
 ```js
 const collatz = n => (n % 2 == 0) ? (n / 2) : (3 * n + 1);
 // collatz(8) --> 4
@@ -718,6 +795,7 @@ const collatz = n => (n % 2 == 0) ? (n / 2) : (3 * n + 1);
 
 Use `Math.hypot()` to calculate the Euclidean distance between two points.
 
+- ES6
 ```js
 const distance = (x0, y0, x1, y1) => Math.hypot(x1 - x0, y1 - y0);
 // distance(1,1, 2,3) -> 2.23606797749979
@@ -729,6 +807,7 @@ const distance = (x0, y0, x1, y1) => Math.hypot(x1 - x0, y1 - y0);
 
 Use the modulo operator (`%`) to check if the remainder is equal to `0`.
 
+- ES6
 ```js
 const isDivisible = (dividend, divisor) => dividend % divisor === 0;
 // isDivisible(6,3) -> true
@@ -741,6 +820,7 @@ const isDivisible = (dividend, divisor) => dividend % divisor === 0;
 Checks whether a number is odd or even using the modulo (`%`) operator.
 Returns `true` if the number is even, `false` if the number is odd.
 
+- ES6
 ```js
 const isEven = num => num % 2 === 0;
 // isEven(3) -> false
@@ -754,6 +834,7 @@ Use recursion.
 If `n` is less than or equal to `1`, return `1`.
 Otherwise, return the product of `n` and the factorial of `n - 1`.
 
+- ES6
 ```js
 const factorial = n => n <= 1 ? 1 : n * factorial(n - 1);
 // factorial(6) -> 720
@@ -766,6 +847,7 @@ const factorial = n => n <= 1 ? 1 : n * factorial(n - 1);
 Create an empty array of the specific length, initializing the first two values (`0` and `1`).
 Use `Array.reduce()` to add values into the array, using the sum of the last two values, except for the first two.
 
+- ES6
 ```js
 const fibonacci = n =>
   Array(n).fill(0).reduce((acc, val, i) => acc.concat(i > 1 ? acc[i - 1] + acc[i - 2] : i), []);
@@ -780,6 +862,7 @@ Use recursion.
 Base case is when `y` equals `0`. In this case, return `x`.
 Otherwise, return the GCD of `y` and the remainder of the division `x/y`.
 
+- ES6
 ```js
 const gcd = (x, y) => !y ? x : gcd(y, x % y);
 // gcd (8, 36) -> 4
@@ -792,6 +875,7 @@ const gcd = (x, y) => !y ? x : gcd(y, x % y);
 Use XOR operator (`^`) to find the bit difference between the two numbers, convert to binary string using `toString(2)`.
 Count and return the number of `1`s in the string, using `match(/1/g)`.
 
+- ES6
 ```js
 const hammingDistance = (num1, num2) =>
   ((num1 ^ num2).toString(2).match(/1/g) || '').length;
@@ -805,6 +889,7 @@ const hammingDistance = (num1, num2) =>
 Use `Array.reduce()` to calculate how many numbers are below the value and how many are the same value and
 apply the percentile formula.
 
+- ES6
 ```js
 const percentile = (arr, val) => 
   100 * arr.reduce((acc,v) => acc + (v < val ? 1 : 0) + (v === val ? 0.5 : 0), 0) / arr.length;
@@ -817,6 +902,7 @@ const percentile = (arr, val) =>
 
 Use `Array.reduce()` combined with `Array.map()` to iterate over elements and combine into an array containing all combinations.
 
+- ES6
 ```js
 const powerset = arr =>
   arr.reduce((a, v) => a.concat(a.map(r => [v].concat(r))), [[]]);
@@ -830,6 +916,7 @@ const powerset = arr =>
 Use `Math.round()` and template literals to round the number to the specified number of digits.
 Omit the second argument, `decimals` to round to an integer.
 
+- ES6
 ```js
 const round = (n, decimals=0) => Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`);
 // round(1.005, 2) -> 1.01
@@ -843,6 +930,7 @@ Use `Array.reduce()` to calculate the mean, variance and the sum of the variance
 determine the standard deviation.
 You can omit the second argument to get the sample standard deviation or set it to `true` to get the population standard deviation.
 
+- ES6
 ```js
 const standardDeviation = (arr, usePopulation = false) => {
   const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
@@ -865,6 +953,7 @@ Use `window.speechSynthesis.speak()` to play the message.
 
 Learn more about the [SpeechSynthesisUtterance interface of the Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance).
 
+- ES6
 ```js
 const speak = message => {
   const msg = new SpeechSynthesisUtterance(message);
@@ -881,6 +970,7 @@ const speak = message => {
 
 Use `Array.reduce()` to create and combine key-value pairs.
 
+- ES6
 ```js
 const objectFromPairs = arr => arr.reduce((a, v) => (a[v[0]] = v[1], a), {});
 // objectFromPairs([['a',1],['b',2]]) -> {a: 1, b: 2}
@@ -892,6 +982,7 @@ const objectFromPairs = arr => arr.reduce((a, v) => (a[v[0]] = v[1], a), {});
 
 Use `Object.keys()` and `Array.map()` to iterate over the object's keys and produce an array with key-value pairs.
 
+- ES6
 ```js
 const objectToPairs = obj => Object.keys(obj).map(k => [k, obj[k]]);
 // objectToPairs({a: 1, b: 2}) -> [['a',1],['b',2]])
@@ -903,6 +994,7 @@ const objectToPairs = obj => Object.keys(obj).map(k => [k, obj[k]]);
 
 Use the object `...spread` operator to spread the properties of the target object into the clone.
 
+- ES6
 ```js
 const shallowClone = obj => ({ ...obj });
 /*
@@ -922,6 +1014,7 @@ For each letter in the given string, create all the partial anagrams for the res
 Use `Array.map()` to combine the letter with each partial anagram, then `Array.reduce()` to combine all anagrams in one array.
 Base cases are for string `length` equal to `2` or `1`.
 
+- ES6
 ```js
 const anagrams = str => {
   if (str.length <= 2) return str.length === 2 ? [str, str[1] + str[0]] : [str];
@@ -937,6 +1030,7 @@ const anagrams = str => {
 
 Use `replace()` to match the first character of each word and `toUpperCase()` to capitalize it.
 
+- ES6
 ```js
 const capitalizeEveryWord = str => str.replace(/\b[a-z]/g, char => char.toUpperCase());
 // capitalizeEveryWord('hello world!') -> 'Hello World!'
@@ -949,6 +1043,7 @@ const capitalizeEveryWord = str => str.replace(/\b[a-z]/g, char => char.toUpperC
 Use `slice(0,1)` and `toUpperCase()` to capitalize first letter, `slice(1)` to get the rest of the string.
 Omit the `lowerRest` parameter to keep the rest of the string intact, or set it to `true` to convert to lower case.
 
+- ES6
 ```js
 const capitalize = (str, lowerRest = false) =>
   str.slice(0, 1).toUpperCase() + (lowerRest ? str.slice(1).toLowerCase() : str.slice(1));
@@ -962,6 +1057,7 @@ const capitalize = (str, lowerRest = false) =>
 Convert string `toLowerCase()` and use `replace()` to remove non-alphanumeric characters from it.
 Then, `split('')` into individual characters, `reverse()`, `join('')` and compare to the original, unreversed string, after converting it `tolowerCase()`.
 
+- ES6
 ```js
 const palindrome = str => {
   const s = str.toLowerCase().replace(/[\W_]/g,'');
@@ -977,6 +1073,7 @@ const palindrome = str => {
 Use array destructuring and `Array.reverse()` to reverse the order of the characters in the string.
 Combine characters to get a string using `join('')`.
 
+- ES6
 ```js
 const reverseString = str => [...str].reverse().join('');
 // reverseString('foobar') -> 'raboof'
@@ -988,6 +1085,7 @@ const reverseString = str => [...str].reverse().join('');
 
 Split the string using `split('')`, `Array.sort()` utilizing `localeCompare()`, recombine using `join('')`.
 
+- ES6
 ```js
 const sortCharactersInString = str =>
   str.split('').sort((a, b) => a.localeCompare(b)).join('');
@@ -1001,6 +1099,7 @@ const sortCharactersInString = str =>
 Determine if the string's `length` is greater than `num`.
 Return the string truncated to the desired length, with `...` appended to the end or the original string.
 
+- ES6
 ```js
 const truncate = (str, num) =>
   str.length > num ? str.slice(0, num > 3 ? num - 3 : num) + '...' : str;
@@ -1014,6 +1113,7 @@ const truncate = (str, num) =>
 
 Use `replace()` to escape special characters.
 
+- ES6
 ```js
 const escapeRegExp = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 // escapeRegExp('(test)') -> \\(test\\)
@@ -1025,6 +1125,7 @@ const escapeRegExp = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 Returns lower-cased constructor name of value, "undefined" or "null" if value is undefined or null
 
+- ES6
 ```js
 const getType = v =>
   v === undefined ? 'undefined' : v === null ? 'null' : v.constructor.name.toLowerCase();
@@ -1037,6 +1138,7 @@ const getType = v =>
 
 Use `Array.isArray()` to check if a value is classified as an array.
 
+- ES6
 ```js
 const isArray = val => !!val && Array.isArray(val);
 // isArray(null) -> false
@@ -1049,6 +1151,7 @@ const isArray = val => !!val && Array.isArray(val);
 
 Use `typeof` to check if a value is classified as a boolean primitive.
 
+- ES6
 ```js
 const isBoolean = val => typeof val === 'boolean';
 // isBoolean(null) -> false
@@ -1061,6 +1164,7 @@ const isBoolean = val => typeof val === 'boolean';
 
 Use `typeof` to check if a value is classified as a function primitive.
 
+- ES6
 ```js
 const isFunction = val => val && typeof val === 'function';
 // isFunction('x') -> false
@@ -1073,6 +1177,7 @@ const isFunction = val => val && typeof val === 'function';
 
 Use `typeof` to check if a value is classified as a number primitive.
 
+- ES6
 ```js
 const isNumber = val => typeof val === 'number';
 // isNumber('1') -> false
@@ -1085,6 +1190,7 @@ const isNumber = val => typeof val === 'number';
 
 Use `typeof` to check if a value is classified as a string primitive.
 
+- ES6
 ```js
 const isString = val => typeof val === 'string';
 // isString(10) -> false
@@ -1097,6 +1203,7 @@ const isString = val => typeof val === 'string';
 
 Use `typeof` to check if a value is classified as a symbol primitive.
 
+- ES6
 ```js
 const isSymbol = val => typeof val === 'symbol';
 // isSymbol('x') -> false
@@ -1109,6 +1216,7 @@ const isSymbol = val => typeof val === 'symbol';
 
 Use `console.time()` and `console.timeEnd()` to measure the difference between the start and end times to determine how long the callback took to execute.
 
+- ES6
 ```js
 const timeTaken = callback => {
   console.time('timeTaken');
@@ -1127,6 +1235,7 @@ const timeTaken = callback => {
 Convert the number to a string, use `split()` to convert build an array.
 Use `Array.map()` and `parseInt()` to transform each value to an integer. 
 
+- ES6
 ```js
 const digitize = n => (''+n).split('').map(i => parseInt(i));
 // digitize(2334) -> [2, 3, 3, 4]
@@ -1140,6 +1249,7 @@ Use the modulo operator (`%`) to find values of single and tens digits.
 Find which ordinal pattern digits match.
 If digit is found in teens pattern, use teens ordinal.
 
+- ES6
 ```js
 const toOrdinalSuffix = num => {
   const int = parseInt(num), digits = [(int % 10), (int % 100)],
@@ -1156,6 +1266,7 @@ const toOrdinalSuffix = num => {
 
 Use `Math.random()` to generate a random number and map it to the desired range, using `Math.floor()` to make it an integer.
 
+- ES6
 ```js
 const randomIntegerInRange = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 // randomIntegerInRange(0, 5) -> 2
@@ -1167,6 +1278,7 @@ const randomIntegerInRange = (min, max) => Math.floor(Math.random() * (max - min
 
 Use `Math.random()` to generate a random value, map it to the desired range using multiplication.
 
+- ES6
 ```js
 const randomInRange = (min, max) => Math.random() * (max - min) + min;
 // randomInRange(2,10) -> 6.0211363285087005
@@ -1178,6 +1290,7 @@ const randomInRange = (min, max) => Math.random() * (max - min) + min;
 
 Convert given RGB parameters to hexadecimal string using bitwise left-shift operator (`<<`) and `toString(16)`, then `padStart(6,'0')` to get a 6-digit hexadecimal value.
 
+- ES6
 ```js
 const rgbToHex = (r, g, b) => ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0');
 // rgbToHex(255, 165, 1) -> 'ffa501'
@@ -1189,6 +1302,7 @@ const rgbToHex = (r, g, b) => ((r << 16) + (g << 8) + b).toString(16).padStart(6
 
 Use array destructuring to swap values between two variables.
 
+- ES6
 ```js
 [varA, varB] = [varB, varA];
 // [x, y] = [y, x]
@@ -1201,6 +1315,7 @@ Use array destructuring to swap values between two variables.
 Use `match()` with an appropriate regular expression to get all key-value pairs, `Array.reduce()` to map and combine them into a single object.
 Pass `location.search` as the argument to apply to the current `url`.
 
+- ES6
 ```js
 const getUrlParameters = url =>
   url.match(/([^?=&]+)(=([^&]*))/g).reduce(
@@ -1215,6 +1330,7 @@ const getUrlParameters = url =>
 
 Use `crypto` API to generate a UUID, compliant with [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) version 4.
 
+- ES6
 ```js
 const uuid = _ =>
   ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
@@ -1230,6 +1346,7 @@ const uuid = _ =>
 Use a regular experssion to check if the email is valid.
 Returns `true` if email is valid, `false` if not.
 
+- ES6
 ```js
 const validateEmail = str =>
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(str);
@@ -1244,6 +1361,7 @@ Use `!isNaN` in combination with `parseFloat()` to check if the argument is a nu
 Use `isFinite()` to check if the number is finite.
 Use `Number()` to check if the coercion holds.
 
+- ES6
 ```js
 const validateNumber = n => !isNaN(parseFloat(n)) && isFinite(n) && Number(n) == n;
 // validateNumber('10') -> true
@@ -1255,6 +1373,7 @@ const validateNumber = n => !isNaN(parseFloat(n)) && isFinite(n) && Number(n) ==
 
 Returns value, or default value if passed value is `falsy`.
 
+- ES6
 ```js
 const valueOrDefault = (value, d) => value || d;
 // valueOrDefault(NaN, 30) -> 30
