@@ -118,13 +118,23 @@
 
 ### Array concatenation
 #### 拼接
-Use `Array.concat()` to concatenate an array with any additional arrays and/or values, specified in `args`.
-
+- Use `Array.concat()` to concatenate an array with any additional arrays and/or values, specified in `args`.
+- ES6
 ```js
 const arrayConcat = (arr, ...args) => arr.concat(...args);
 // arrayConcat([1], 2, [3], [[4]]) -> [1,2,3,[4]]
 ```
+- ES5
+```js
+var arrayConcat = function arrayConcat(arr) {
+  for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
 
+  return arr.concat.apply(arr, args);
+};
+// arrayConcat([1], 2, [3], [[4]]) -> [1,2,3,[4]]
+```
 [⬆ back to top](#table-of-contents)
 
 ### Array difference
