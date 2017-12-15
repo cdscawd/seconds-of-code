@@ -10,7 +10,7 @@
 ## Table of Contents
 
 ### Array
-* [Array concatenation](#Array concatenation(拼接))
+* [Array concatenation](#Array concatenation '拼接')
 * [Array difference](#array-difference)
 * [Array intersection](#array-intersection)
 * [Array union](#array-union)
@@ -116,7 +116,7 @@
 
 ## Array
 
-### Array concatenation(拼接)
+### Array concatenation '拼接'
 
 Use `Array.concat()` to concatenate an array with any additional arrays and/or values, specified in `args`.
 
