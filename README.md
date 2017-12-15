@@ -10,7 +10,7 @@
 ## Table of Contents
 
 ### Array
-* [Array concatenation](#Array concatenation)
+* [Array concatenation](#array-concatenation)
 * [Array difference](#array-difference)
 * [Array intersection](#array-intersection)
 * [Array union](#array-union)
