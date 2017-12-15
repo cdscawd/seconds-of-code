@@ -10,7 +10,7 @@
 ## Table of Contents
 
 ### Array
-* [Array concatenation](#array-concatenation)
+* [Array concatenation](#Array concatenation(拼接))
 * [Array difference](#array-difference)
 * [Array intersection](#array-intersection)
 * [Array union](#array-union)
@@ -207,7 +207,7 @@ const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 
 
 [⬆ back to top](#table-of-contents)
 
-### Deep flatten array
+### Deep flatten array(深平阵数组)
 
 Use recursion.
 Use `Array.reduce()` to get all elements that are not arrays, flatten each element that is an array.
@@ -220,7 +220,7 @@ const deepFlatten = arr =>
 
 [⬆ back to top](#table-of-contents)
 
-### Drop elements in array
+### Drop elements in array(提取条件项)
 
 Loop through the array, using `Array.shift()` to drop the first element of the array until the returned value from the function is `true`. 
 Returns the remaining elements.
