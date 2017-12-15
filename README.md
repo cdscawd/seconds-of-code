@@ -185,7 +185,7 @@ const chunk = (arr, size) =>
 
 [⬆ back to top](#table-of-contents)
 
-### Compact
+### Compact(有效值)
 
 Use `Array.filter()` to filter out falsey values (`false`, `null`, `0`, `""`, `undefined`, and `NaN`).
 
@@ -196,7 +196,7 @@ const compact = (arr) => arr.filter(v => v);
 
 [⬆ back to top](#table-of-contents)
 
-### Count occurrences of a value in array
+### Count occurrences of a value in array(存在总数)
 
 Use `Array.reduce()` to increment a counter each time you encounter the specific value inside the array.
 
